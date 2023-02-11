@@ -1,14 +1,14 @@
 import requests
 from requests.auth import HTTPBasicAuth
 
+from hometap_api.v1.exceptions import HouseCanaryApiException
 from hometap_api.v1.settings import SETTINGS
 
 SECRETS_DIR = SETTINGS.secrets_dir
 
 
 class HouseCanaryAPIClient:
-    root: str = "https://virtserver.swaggerhub.com/RITALINETS/HouseCanaryMock"
-    version: str = "1.0.0"
+    url: str = SETTINGS.house_canary_url
     headers: dict[str, str] = {"Content-Type": "application/json"}
     auth: tuple | HTTPBasicAuth
 
@@ -16,17 +16,17 @@ class HouseCanaryAPIClient:
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-    @property
-    def url(self):
-        return f"{self.root}/{self.version}"
-
     def get(self, endpoint, params=None):
-        print(
-            f"{self.url}/{endpoint}",
-        )
-        return requests.get(
+        response = requests.get(
             f"{self.url}/{endpoint}",
             params=params,
             headers=self.headers,
             auth=self.auth,
+            timeout=5,
         )
+        # TODO: Add logging for all third-party api response codes
+        if not response.status_code == 200:
+            # This error will be intercepted by the middleware
+            # and will always return 503 error to the web client; 
+            raise HouseCanaryApiException
+        return response

@@ -15,6 +15,7 @@ class Settings:
     env: str
     middlewares: Optional[list]
     house_canary_key: str
+    house_canary_url: str
     secrets_dir: Optional[str]
 
 
@@ -23,6 +24,7 @@ def ProductionSettings() -> Settings:
         env="prod",
         middlewares=[],
         secrets_dir=os.environ.get("SECRETS_DIR") or "/app/secrets",
+        house_canary_url="https://house-canary-api.com/api",
         house_canary_key=os.environ.get("SECRET_NAME"),
     )
 
@@ -32,6 +34,7 @@ def DevelopmentSettings() -> Settings:
         env="dev",
         middlewares=[],
         secrets_dir=os.environ.get("SECRETS_DIR") or "/app/secrets",
+        house_canary_url="https://house-canary-api-dev/api",
         house_canary_key=os.environ.get("SECRET_NAME"),
     )
 
@@ -53,6 +56,7 @@ def DockerSettings() -> Settings:
             )
         ],
         secrets_dir=os.environ.get("SECRETS_DIR") or "/app/secrets",
+        house_canary_url="https://40a2af34-f05f-4ca4-aa6b-c6eb444ff269.mock.pstmn.io",
         house_canary_key=os.environ.get("SECRET_NAME"),
     )
 

@@ -8,11 +8,22 @@ from fastapi.responses import JSONResponse
 from pydantic.error_wrappers import ValidationError
 
 from hometap_api.v1.endpoints import home
+from hometap_api.v1.exceptions import HouseCanaryApiException
 from hometap_api.v1.settings import SETTINGS
 
 logger = logging.getLogger(__name__)
 
-app = FastAPI()
+description = """
+    HEME API implements integration with HouseCanary API for a client facing web application. 
+    """
+
+app = FastAPI(
+    title="Hometap Engineering Manager Exercise API",
+    description=description,
+    version="v1",
+    contact={"name": "Margarita Linets"},
+    openapi_tags=home.tags_metadata,
+)
 
 COMPONENT_ENDPOINTS = [home.endpoint]
 
@@ -57,8 +68,22 @@ def _configure_validation_error_handler(component: FastAPI) -> None:
         )
 
 
+def _configure_house_canary_error_handler(component: FastAPI) -> None:
+    # Adding custom exception handler to intercept pydantic validation errors
+    # and return HTTP 422 code
+    @component.exception_handler(HouseCanaryApiException)
+    async def handle_exception(request: Request, exc: HouseCanaryApiException):
+        return JSONResponse(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            content=jsonable_encoder(
+                {"detail": "House Canary API failed to respond successfully"}
+            ),
+        )
+
+
 _configure_stats(app)
 _configure_middleware(app)
 _configure_routers(app)
 _configure_validation_error_handler(app)
+_configure_house_canary_error_handler(app)
 _configure_logging(app)
