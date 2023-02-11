@@ -10,6 +10,14 @@ from hometap_api.v1.models.hc_response import GeoCodeResponse, PropertyDetailsRe
 from hometap_api.v1.models.response import HasSepticSystemResponse, HelloWorldResponse
 from hometap_api.v1.settings import SETTINGS
 
+tags_metadata = [
+    {
+        "name": "has_septic_system",
+        "description": "Takes in user provided address, validates the address and \
+             returns a True/False response indicating if septic system is present.",
+    }
+]
+
 
 @dataclass
 class Endpoint:
@@ -20,12 +28,12 @@ class Endpoint:
 endpoint = Endpoint(prefix="/api")
 
 
-@endpoint.router.get("/")
+@endpoint.router.get("/", include_in_schema=False)
 async def read_home() -> HelloWorldResponse:
     return {"hello": "world"}
 
 
-@endpoint.router.get("/has_septic_system")
+@endpoint.router.get("/has_septic_system", tags=["has_septic_system"])
 async def has_septic_system(address: str) -> HasSepticSystemResponse:
     client = HouseCanaryAPIClient(
         auth=(
@@ -39,8 +47,9 @@ async def has_septic_system(address: str) -> HasSepticSystemResponse:
     # First, we need to try and convert user-supplied address
     # into House Carany "cananonical address"
 
-    geocode_resp = client.get("property/geocode", params=address).json()
-    # Validate the response structure matches our expectations
+    geocode_resp = client.get("property/geocode", params={"address": address}).json()
+    # Validate the response structure matches our expectations-gives us error-handling \
+    # in case House Canary changes response structure without notice
     try:
         GeoCodeResponse(**geocode_resp)
     except ValidationError:
@@ -58,7 +67,9 @@ async def has_septic_system(address: str) -> HasSepticSystemResponse:
             content="Unable to validate user supplied property address",
         )
     # Using verified address, get sewer status
-    details_resp = client.get("property/details", params=canonical_address).json()
+    details_resp = client.get(
+        "property/details", params={"address": canonical_address}
+    ).json()
 
     # Validate the response structure matches our expectations
     try:
