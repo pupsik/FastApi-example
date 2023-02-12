@@ -76,7 +76,9 @@ def _configure_house_canary_error_handler(component: FastAPI) -> None:
         return JSONResponse(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             content=jsonable_encoder(
-                {"detail": "House Canary API failed to respond successfully"}
+                {
+                    "detail": "Failed to obtain successful response from third party providers."
+                }
             ),
         )
 
