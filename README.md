@@ -76,7 +76,7 @@ Expected response:
 
 ```
 status_code=503
-response = {"detail":"House Canary API failed to respond successfully"}
+response = {"detail":"Failed to obtain successful response from third party providers."}
 ```
 
 #### Further Considerations: 
