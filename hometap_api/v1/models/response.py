@@ -7,3 +7,7 @@ class HasSepticSystemResponse(BaseModel):
 
 class HelloWorldResponse(BaseModel):
     hello: str
+
+
+class ExceptionMessage(BaseModel):
+    message: str

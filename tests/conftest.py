@@ -1,6 +1,8 @@
+from urllib.parse import urlencode, urlparse
+
 import pytest
 import requests
-from urllib.parse import urlparse, urlencode
+
 from hometap_api.secrets import SecretStore
 
 RESPONSES = {
