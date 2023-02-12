@@ -2,6 +2,7 @@
 
 The purpose of this API is to serve as the intermediary layer between the web client and the third party House Canary API. 
 
+
 ### Quick Start 
 
 #### Secrets
@@ -79,6 +80,91 @@ status_code=503
 response = {"detail":"Failed to obtain successful response from third party providers."}
 ```
 
+### Few Notes on Mock Server Set Up
+
+The service is using PostMan Mock Server with the end-points detailed below. The response models are abbreviated for simplicity. 
+
+Success Scenarios:
+
+```
+GET https://40a2af34-f05f-4ca4-aa6b-c6eb444ff269.mock.pstmn.io/property/geocode?address=123+Main+St+Natick+MA+01748
+
+Response Code: 200
+
+{
+    "property/geocode": {
+        "api_code": 0,
+        "api_code_description": "ok",
+        "result": true
+    },
+    "address_info": {
+        "address_full": "123 Main St Natick MA 01748",
+        "slug": "123-Main-Street-Natick-MA-01748"
+    },
+    "status": {
+        "match": true,
+        "errors": []
+    }
+}
+
+
+GET https://40a2af34-f05f-4ca4-aa6b-c6eb444ff269.mock.pstmn.io/property/geocode?address=123+Main+St
+
+Response Code: 200
+
+{
+    "property/geocode": {
+        "api_code": 0,
+        "api_code_description": "ok",
+        "result": true
+    },
+    "address_info": {
+        "address_full": "123 Main St",
+        "slug": ""
+    },
+    "status": {
+        "match": false,
+        "errors": []
+    }
+}
+
+GET https://40a2af34-f05f-4ca4-aa6b-c6eb444ff269.mock.pstmn.io/property/details?address=123-Main-Street-Natick-MA-01748
+
+Response Code 200
+
+{
+    "property/details": {
+        "api_code_description": "ok",
+        "api_code": 200,
+        "result": {
+            "property": {
+                "air_conditioning": "yes",
+                "sewer": "municipal",
+                "style": "colonial",
+                "pool": true
+            }
+        }
+    }
+}
+```
+
+Failure Scenarios:
+
+```
+GET https://40a2af34-f05f-4ca4-aa6b-c6eb444ff269.mock.pstmn.io/property/geocode?address=568+Right+St
+
+Response Code: 400
+
+"Missing required fields or incorrect request structure"
+
+GET https://40a2af34-f05f-4ca4-aa6b-c6eb444ff269.mock.pstmn.io/property/geocode?address=444+Unhandled+St
+
+Response Code 500
+
+"Internal Server Error"
+
+```
+
 #### Further Considerations: 
 
 1. Add logging - all web client requests should be logged and all House Canary requests should be logged. Both logs should 
@@ -96,4 +182,5 @@ be joinabled on the same request ID so that we can trace which web client reques
 
 7. Set up CI/CD pipeline
 
+8. Expand error handling for more scnearios
 
