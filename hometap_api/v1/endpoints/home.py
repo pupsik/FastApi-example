@@ -6,8 +6,11 @@ from pydantic.error_wrappers import ValidationError
 
 from hometap_api.secrets import SecretStore
 from hometap_api.v1.clients.house_canary import HouseCanaryAPIClient
-from hometap_api.v1.models.hc_response import GeoCodeResponse, PropertyDetailsResponse
-from hometap_api.v1.models.response import HasSepticSystemResponse, HelloWorldResponse
+from hometap_api.v1.models.hc_response import (GeoCodeResponse,
+                                               PropertyDetailsResponse)
+from hometap_api.v1.models.response import (ExceptionMessage,
+                                            HasSepticSystemResponse,
+                                            HelloWorldResponse)
 from hometap_api.v1.settings import SETTINGS
 
 tags_metadata = [
@@ -33,7 +36,11 @@ async def read_home() -> HelloWorldResponse:
     return {"hello": "world"}
 
 
-@endpoint.router.get("/has_septic_system", tags=["has_septic_system"])
+@endpoint.router.get(
+    "/has_septic_system",
+    tags=["has_septic_system"],
+    responses={503: {"model": ExceptionMessage}, 400: {"model": ExceptionMessage}},
+)
 async def has_septic_system(address: str) -> HasSepticSystemResponse:
     client = HouseCanaryAPIClient(
         auth=(

@@ -25,8 +25,8 @@ class HouseCanaryAPIClient:
             timeout=5,
         )
         # TODO: Add logging for all third-party api response codes
-        if not response.status_code == 200:
+        if response.status_code != 200:
             # This error will be intercepted by the middleware
-            # and will always return 503 error to the web client; 
+            # and will always return 503 error to the web client;
             raise HouseCanaryApiException
         return response

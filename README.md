@@ -29,6 +29,7 @@ docker compose up hometap-api
 ```
 
 #### Making Requests
+
 ```
 curl http://localhost:5000/api/has_septic_system?address=123+Main+St+Natick+MA+01748
 ```
@@ -38,3 +39,61 @@ Expected response:
 ```
 {"has_septic_system":false}
 ```
+
+API docs can be accessed at:
+
+```
+http://localhost:5000/docs
+```
+
+Other responses:
+
+```
+curl http://localhost:5000/api/has_septic_system?address=123+Main+St
+```
+
+Expected response:
+
+```
+status_code = 400
+response = Unable to validate user supplied property address
+```
+
+```
+curl http://localhost:5000/api/has_septic_system
+```
+Expected response:
+
+```
+status_code=422
+response = {"detail":[{"loc":["query","address"],"msg":"field required","type":"value_error.missing"}]}
+```
+
+```
+curl http://localhost:5000/api/has_septic_system?address=444+Unhandled+St
+```
+Expected response:
+
+```
+status_code=503
+response = {"detail":"House Canary API failed to respond successfully"}
+```
+
+#### Further Considerations: 
+
+1. Add logging - all web client requests should be logged and all House Canary requests should be logged. Both logs should 
+be joinabled on the same request ID so that we can trace which web client requests resulted in which House Canary API requests. 
+
+2. Rate limiting - set rate limiting on our API
+
+3. Add docker container for tests - build a separate container, separate requirements and add to docker compose
+
+4. Add "lock-requirements" script and docker container to build requirements. 
+
+5. Add retries on thid party API calls for certain types of errors (must be mindful of the third-party API rate limits)
+
+6. Improve secret handling - secrets should be encrypted. 
+
+7. Set up CI/CD pipeline
+
+
