@@ -22,7 +22,9 @@ Validate that you now have the secrets folder and the secret above is correctly 
 
 #### Running the Service
 
-This tutorial expects that you have docker installed locally and have understanding on how to use it. If you don't have docker installed, please follow instructions [here](https://docs.docker.com/engine/install): 
+This tutorial expects that you have docker installed locally and have understanding of how to use it. If you don't have docker installed, please follow the instructions [here](https://docs.docker.com/engine/install): 
+
+In your terminal, run the following commands:
 
 ```
 docker compose build hometap-api
@@ -41,13 +43,17 @@ Expected response:
 {"has_septic_system":false}
 ```
 
+#### Documentation
+
 API docs can be accessed at:
 
 ```
 http://localhost:5000/docs
 ```
 
-Other responses:
+### Further Use Cases
+
+Request:
 
 ```
 curl http://localhost:5000/api/has_septic_system?address=123+Main+St
@@ -60,6 +66,8 @@ status_code = 400
 response = Unable to validate user supplied property address
 ```
 
+Request:
+
 ```
 curl http://localhost:5000/api/has_septic_system
 ```
@@ -69,6 +77,8 @@ Expected response:
 status_code=422
 response = {"detail":[{"loc":["query","address"],"msg":"field required","type":"value_error.missing"}]}
 ```
+
+Request:
 
 ```
 curl http://localhost:5000/api/has_septic_system?address=444+Unhandled+St
