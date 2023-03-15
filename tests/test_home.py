@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 
-from hometap_api.app import app
+from fast_api.app import app
 
 client = TestClient(app)
 

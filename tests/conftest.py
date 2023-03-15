@@ -3,7 +3,7 @@ from urllib.parse import urlencode, urlparse
 import pytest
 import requests
 
-from hometap_api.secrets import SecretStore
+from fast_api.secrets import SecretStore
 
 RESPONSES = {
     "/property/geocode?address=123+Fake+St": {"status_code": 400},

@@ -1,15 +1,15 @@
 version: "3.9"
 services:
-  hometap-api:
+  fast-api:
     environment:
       - ENV=docker
       - SECRET_NAME=my_api_key
       - SECRETS_DIR=/app/secrets
     build:
       context: .
-      dockerfile: docker/hometap-api.dockerfile
+      dockerfile: docker/fast-api.dockerfile
     container_name: fastapi-app
-    command: "python -m uvicorn app:app --app-dir /app/hometap_api --host 0.0.0.0 --port 5000 --reload"
+    command: "python -m uvicorn app:app --app-dir /app/fast_api --host 0.0.0.0 --port 5000 --reload"
     ports:
       - "5000:5000"
     volumes:

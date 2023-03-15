@@ -4,14 +4,14 @@ from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
 from pydantic.error_wrappers import ValidationError
 
-from hometap_api.secrets import SecretStore
-from hometap_api.v1.clients.house_canary import HouseCanaryAPIClient
-from hometap_api.v1.models.hc_response import (GeoCodeResponse,
+from fast_api.secrets import SecretStore
+from fast_api.v1.clients.house_canary import HouseCanaryAPIClient
+from fast_api.v1.models.hc_response import (GeoCodeResponse,
                                                PropertyDetailsResponse)
-from hometap_api.v1.models.response import (ExceptionMessage,
+from fast_api.v1.models.response import (ExceptionMessage,
                                             HasSepticSystemResponse,
                                             HelloWorldResponse)
-from hometap_api.v1.settings import SETTINGS
+from fast_api.v1.settings import SETTINGS
 
 tags_metadata = [
     {
