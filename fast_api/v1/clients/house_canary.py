@@ -1,8 +1,8 @@
 import requests
 from requests.auth import HTTPBasicAuth
 
-from hometap_api.v1.exceptions import HouseCanaryApiException
-from hometap_api.v1.settings import SETTINGS
+from fast_api.v1.exceptions import HouseCanaryApiException
+from fast_api.v1.settings import SETTINGS
 
 SECRETS_DIR = SETTINGS.secrets_dir
 

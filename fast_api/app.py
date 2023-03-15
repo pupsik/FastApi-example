@@ -7,9 +7,9 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from pydantic.error_wrappers import ValidationError
 
-from hometap_api.v1.endpoints import home
-from hometap_api.v1.exceptions import HouseCanaryApiException
-from hometap_api.v1.settings import SETTINGS
+from fast_api.v1.endpoints import home
+from fast_api.v1.exceptions import HouseCanaryApiException
+from fast_api.v1.settings import SETTINGS
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +18,7 @@ description = """
     """
 
 app = FastAPI(
-    title="Hometap Engineering Manager Exercise API",
+    title="Fast Api Example Api",
     description=description,
     version="v1",
     contact={"name": "Margarita Linets"},

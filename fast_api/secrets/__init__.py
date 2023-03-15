@@ -1,7 +1,7 @@
 import os
 from typing import Callable
 
-from hometap_api.v1.exceptions import CredentialFileError
+from fast_api.v1.exceptions import CredentialFileError
 
 
 class SecretStore:

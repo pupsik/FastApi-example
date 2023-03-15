@@ -5,7 +5,7 @@ from typing import Optional
 
 from fastapi.middleware.cors import CORSMiddleware
 
-from hometap_api.v1.exceptions import EnvironmentNotFoundException
+from fast_api.v1.exceptions import EnvironmentNotFoundException
 
 logger = getLogger(__name__)
 

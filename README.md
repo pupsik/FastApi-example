@@ -1,6 +1,6 @@
-# Hometap Engineering Manager Exercise API 
+# FastApi Example 
 
-The purpose of this API is to serve as the intermediary layer between the web client and the third party House Canary API. 
+FastApi app example. The purpose of this API is to serve as the intermediary layer between the web client and the third party House Canary API. 
 
 
 ### Quick Start 
@@ -27,8 +27,8 @@ This tutorial expects that you have docker installed locally and have understand
 In your terminal, run the following commands:
 
 ```
-docker compose build hometap-api
-docker compose up hometap-api
+docker compose build fast-api
+docker compose up fast-api
 ```
 
 #### Making Requests
